@@ -20,7 +20,7 @@ class CreateNewsTable extends Migration
             $table->string('slug',255)->index();
             $table->text('short_description')->nullable();
             $table->text('description');
-            $table->string('feature_image',100);
+            $table->string('feature_image',100)->nullable();;
             $table->string('external_url',1024)->nullable();
             $table->timestamp('publish_date')->nullable();
             $table->enum('status',['published','draft'])->indx();

@@ -98,6 +98,9 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      */
     public function update($model) : Model
     {
+        if(property_exists($this->getModel(),'created_by')){
+            $data['created_by'] = $model->created_by;
+        }
         if(property_exists($this->getModel(),'updated_by')){
             $data['updated_by'] = Auth::user()->id;
         }
@@ -113,12 +116,15 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      */
     public function updateById($data, $id) : Model
     {
-        if(property_exists($this->getModel(),'updated_by')){
+
+        $model = $this->getModelById($id);
+        if(property_exists($this->getModel(),'created_by')){
+            $data['created_by'] = $model->created_by;
+        }
+        if(property_exists($this->getModel(),'updated_by')) {
             $data['updated_by'] = Auth::user()->id;
         }
-        $model = $this->find($id);
-        $this->getModel()->fill($data);
-        $this->getModel()->save();
+        $this->getModel()->update($data);
        return $model;
     }
 

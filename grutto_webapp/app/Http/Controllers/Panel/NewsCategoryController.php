@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
  * Class NewsController
  * @package App\Http\Controllers
  */
-class NewsController extends Controller
+class NewsCategoryController extends Controller
 {
     /**
      * @var NewsServiceInterface
@@ -42,7 +42,7 @@ class NewsController extends Controller
 //                return NewsResource::collection($news);
 //            }
 
-            return view('panel.news.index');
+            return view('panel.news_category.index');
 
 //        }catch (\Exception $ex){
 //            Common\Logger::logError($ex);
@@ -55,11 +55,11 @@ class NewsController extends Controller
      */
     public function create(){
         $newsCategories = $this->newsService->getAllNewsCategoryForNewsList();
-        return view('panel.news.new', compact('newsCategories'));
+        return view('panel.news_category.new', compact('newsCategories'));
     }
     public function edit(News $news){
         $newsCategories = $this->newsService->getAllNewsCategoryForNewsList();
-        return view('panel.news.edit', compact('news','newsCategories'));
+        return view('panel.news_category.edit', compact('news','newsCategories'));
     }
     /**
      * @param News $news
@@ -67,7 +67,7 @@ class NewsController extends Controller
     public function show(News $news)
     {
         try{
-            return view('panel.news.edit', compact('news'));
+            return view('panel.news_category.edit', compact('news'));
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
             return redirect(route('news.create'))
