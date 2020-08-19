@@ -1,9 +1,13 @@
 <?php
 namespace App\Models;
-use App\Models\MariaDBModel;
+
 
 class News extends MariaDBModel{
-    protected $guarded = [
+
+    protected  $created_by;
+    protected  $updated_by;
+
+    protected $fillable  = [
         'category_id' ,
         'title',
         'slug',

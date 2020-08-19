@@ -61,7 +61,6 @@ class NewsController extends Controller
         $newsCategories = $this->newsService->getAllNewsCategoryForNewsList();
         return view('panel.news.edit', compact('news','newsCategories'));
     }
-
     /**
      * @param News $news
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
@@ -75,8 +74,10 @@ class NewsController extends Controller
             return  Common\ResponseService::error(500, $ex);
         }
     }
+
     /**
      * @param NewsRequest $request
+     * @return \Illuminate\Http\Response
      */
     public function store(NewsRequest $request)
     {
@@ -90,18 +91,24 @@ class NewsController extends Controller
 
     /**
      * @param NewsRequest $request
-     * @param $id
+     * @param $news
+     * @return \Illuminate\Http\Response
      */
     public function update(NewsRequest $request, $news)
     {
         try{
-            return Common\ResponseService::success($this->newsService->updateNews($request->all(), $id));
+            dd($news);
+            return Common\ResponseService::success($this->newsService->updateNews($request->all(), $news));
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
             return  Common\ResponseService::error('Something went wrong!');
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         try{

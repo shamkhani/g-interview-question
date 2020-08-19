@@ -14,50 +14,55 @@
           <div class="card-header">
             <h3 class="card-title">News Form</h3>
           </div>
-          <form method="POST" id="news_form" action="{{ route('news.store')}}"  role="form" novalidate="novalidate">
+          <form method="POST" id="news_form" action="{{ route('news.store')}}"  role="form" >
             {{ csrf_field() }}
             <div class="card-body">
-
                 <div class="form-group">
-                    <label for="news_category" >Publish date</label>
-                    <select  class="form-control"  name="news_category" title="">
+                    <label for="category_id" >Category</label>
+                    <select  required class="form-control"  name="category_id" title="">
                         <option value="">--- Please choose a category ---</option>
                         @if($newsCategories)
                             @foreach($newsCategories as $newsCategory)
-                                <option value="{{$newsCategory->title}}">{{$newsCategory->title}}</option>
+                                <option  {{ old('category_id') == $newsCategory->id ? 'selected' : '' }} value="{{$newsCategory->id}}">{{$newsCategory->title}}</option>
                             @endforeach
                         @endif
                     </select>
                 </div>
               <div class="form-group">
                 <label for="name">Title</label>
-                <input   type="text" name="name" class="form-control"   placeholder="Enter news title" required>
+                <input value="{{ old('title')}}"  type="text" name="title" class="form-control"   placeholder="Enter news title" required>
               </div>
               <div class="form-group">
                 <label for="name">Slug</label>
-                <input   type="text" name="slug" class="form-control"  placeholder="Enter news slug" required>
+                <input  value="{{ old('slug')}}"  type="text" name="slug" class="form-control"  placeholder="Enter news slug" required>
               </div>
               <div class="form-group">
                 <label for="short_description">Short description</label>
-                <textarea   class="form-control"  cols="3" rows="2" name="short_description"  title=""></textarea>
+                <textarea   class="form-control"  cols="3" rows="2" name="short_description"  title="">{{old('short_description')}}</textarea>
               </div>
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea  class="form-control"  cols="3" rows="5" name="description" title="" ></textarea>
+                <textarea  class="form-control"  cols="3" rows="5" name="description"  required title="" >{{old('short_description')}}</textarea>
               </div>
               <div class="form-group">
                 <label for="external_link" >External Url</label>
-                <input  class="form-control"  value="" type="text" placeholder="e.g. www.news24/de/article/news-slug" name="external_link" required pattern="/^de/article\/[a-zA-Z]\w*/i"  title="External link"/>
+                <input   value="{{ old('external_link')}}" class="form-control"  type="url" placeholder="e.g. https://news24/de/article/news-slug" name="external_link"
+                        required pattern="^(http|https)://(.*)(/de/article(\/[a-zA-Z]\w*)?)"  title="External link"/>
+              </div>
+
+              <div class="form-group">
+                <label for="feature_image" >Featured Image</label>
+                <input  value="{{ old('feature_image')}}" type="file" class="form-control"  name="feature_image" required   />
               </div>
               <div class="form-group">
                 <label for="publish_date" >Publish date</label>
-                <input  class="form-control"  type="datetime-local" name="publish_date" required value=""  />
+                <input  value="{{ old('publish_date')}}" class="form-control" type="date" name="publish_date" required  />
               </div>
               <div class="form-group">
-                <label for="publish_date" >Publish date</label>
+                <label for="status" >Publish date</label>
                 <select  class="form-control"  name="status" title="">
-                  <option value="draft">Draft</option>
-                  <option value="publish">Publish</option>
+                  <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                  <option value="publish"  {{ old('status') == 'draft' ? 'selected' : '' }}>Publish</option>
                 </select>
               </div>
             </div>
@@ -79,57 +84,5 @@
 
 @stop
 @section('js')
-  <script>
 
-
-      $(document).ready(function () {
-
-
-          $.validator.setDefaults({
-
-              submitHandler: function (form) {
-                  //console.log('ok');
-                  form.submit();
-              }
-          });
-          $('#news_form').validate({
-              rules: {
-                  title: {
-                      required: true,
-                  },
-                  slug: {
-                      required: true,
-                  },
-
-                  description: {
-                      required: true,
-                  },
-              },
-              messages: {
-                  title: {
-                      required: "Please enter a title",
-                  },
-                  slug: {
-                      required: "Please enter a slug",
-                  },
-                  description: {
-                      required: "Please enter a description",
-                  },
-
-              },
-              errorElement: 'span',
-              errorPlacement: function (error, element) {
-                  error.addClass('invalid-feedback');
-                  element.closest('.form-group').append(error);
-              },
-              highlight: function (element, errorClass, validClass) {
-                  $(element).addClass('is-invalid');
-              },
-              unhighlight: function (element, errorClass, validClass) {
-                  $(element).removeClass('is-invalid');
-              }
-          });
-      });
-
-  </script>
 @stop

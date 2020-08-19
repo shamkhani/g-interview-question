@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\MariaDBModel as Model;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -85,17 +86,36 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      */
     public function create($data) : Model
     {
+        if(property_exists($this->getModel(),'created_by')){
+            $data['created_by'] = Auth::user()->id;
+        }
         return $this->getModel()->create($data);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model
+     * @return Model
+     */
+    public function update($model) : Model
+    {
+        if(property_exists($this->getModel(),'updated_by')){
+            $data['updated_by'] = Auth::user()->id;
+        }
+        return $model->save();
     }
 
     /**
      * Update model.
      *
      * @param array $data
-     * @return bool
+     * @param $id
+     * @return Model
      */
-    public function update($data, $id) : Model
+    public function updateById($data, $id) : Model
     {
+        if(property_exists($this->getModel(),'updated_by')){
+            $data['updated_by'] = Auth::user()->id;
+        }
         $model = $this->find($id);
         $this->getModel()->fill($data);
         $this->getModel()->save();
@@ -185,7 +205,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      * @param bool $query
      * @return mixed
      */
-    public function getAll($items = 10, $columns = [], $query = false)
+    public function getAll($items = 0, $columns = [], $query = false)
     {
         if ($query) {
             $modelQuery = $query;

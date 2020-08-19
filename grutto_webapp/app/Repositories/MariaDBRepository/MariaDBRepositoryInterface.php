@@ -28,11 +28,16 @@ interface MariaDBRepositoryInterface
     public function create($data) : Model;
 
     /**
+     * @param \Illuminate\Database\Eloquent\Model
+     * @return Model
+     */
+    public function update($model) : Model;
+    /**
      * @param $data
      * @param $id
      * @return Model
      */
-    public function update($data, $id) : Model;
+    public function updateById($data, $id) : Model;
 
     /**
      * Removes entity from database by passing model.
@@ -84,7 +89,7 @@ interface MariaDBRepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function getAll($items = 10, $columns = []);
+    public function getAll($items = 0, $columns = []);
 
     /**
      * Return the count of all records in this model.

@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\News;
+use Illuminate\Database\Eloquent\Model;
 
 interface NewsServiceInterface {
 
@@ -18,14 +19,19 @@ interface NewsServiceInterface {
      */
     public function getNewsById(int $id) : News;
 
+
+    /**
+     * @param array $data
+     * @return \App\Models\MariaDBModel|News
+     */
     public function createNews(array $data) : News;
 
     /**
-     * @param $data
-     * @param $id
-     * @return News
+     * @param array $data
+     * @param int $id
+     * @return \App\Models\MariaDBModel|News
      */
-    public function updateNews(array $data, int $id) : News;
+    public function updateNews(array  $data, int $id) : News;
 
     /**
      * @param $id

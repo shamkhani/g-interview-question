@@ -4,7 +4,7 @@ use App\Models\MariaDBModel;
 
 class NewsCategory extends MariaDBModel{
 
-    protected $guarded = [
+    protected $fillable  = [
         'parent_id',
         'title',
         'slug',

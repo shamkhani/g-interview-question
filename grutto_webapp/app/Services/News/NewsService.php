@@ -6,7 +6,7 @@ use App\Models\News;
 use App\Repositories\NewsCategoryRepositoryInterface;
 use App\Repositories\NewsRepositoryInterface;
 use App\Repositories\TagRepositoryInterface;
-
+use Illuminate\Database\Eloquent\Model;
 
 
 class NewsService implements NewsServiceInterface
@@ -49,25 +49,30 @@ class NewsService implements NewsServiceInterface
 
     /**
      * @param $id
-     * @return News
+     * @return \App\Models\MariaDBModel|News
      */
     public function getNewsById(int $id) : News
     {
         return $this->newsRepository->getModelById($id);
     }
+
+    /**
+     * @param array $data
+     * @return \App\Models\MariaDBModel|News
+     */
     public function createNews(array $data) : News
     {
         return $this->newsRepository->create($data);
     }
 
     /**
-     * @param $data
-     * @param $id
-     * @return News
+     * @param array $data
+     * @param int $id
+     * @return \App\Models\MariaDBModel|News.
      */
     public function updateNews(array $data, int $id) : News
     {
-        return $this->newsRepository->update($data, $id);
+        return $this->newsRepository->updateById($data, $id);
     }
 
     /**
@@ -84,6 +89,6 @@ class NewsService implements NewsServiceInterface
      */
     public function getAllNewsCategoryForNewsList()
     {
-        $this->newsCategoryRepository->getAll(100,['id','title']);
+        return $this->newsCategoryRepository->getAll(0,['id','title']);
     }
 }

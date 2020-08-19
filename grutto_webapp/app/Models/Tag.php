@@ -5,7 +5,7 @@ use App\Models\MariaDBModel;
 class Tag extends MariaDBModel{
 
     protected $timestamp = false;
-    protected $guarded = [
+    protected $fillable = [
         'title'
     ];
 
