@@ -35,8 +35,24 @@ class News extends MariaDBModel{
 
     public function getPublishDateAttribute()
     {
-        if($this->attributes['publish_date'])
+        if($this->attributes['publish_date']){
             return  date('Y-m-d', strtotime($this->attributes['publish_date']));
+        }
+
+    }
+    public function getCreatedAtAttribute()
+    {
+        if($this->attributes['created_at']){
+            return  date('Y-m-d h:i:s', strtotime($this->attributes['created_at']));
+        }
+
+    }
+    public function getUpdatedAtAttribute()
+    {
+        if($this->attributes['updated_at']){
+            return  date('Y-m-d H:i:s', strtotime($this->attributes['updated_at']));
+        }
+
     }
 
 

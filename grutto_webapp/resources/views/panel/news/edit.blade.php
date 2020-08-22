@@ -67,14 +67,17 @@
                                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required  />
                             </div>
                             <div class="form-group">
-                                <label for="tags" >Publish date</label>
-                                <input type="text" name="tags" value="{{ $news->tags }}">
+                                <label for="tags" >Tags</label>
+                                <input class="form-control" type="text" name="tags" value="">
+                                @foreach($news->tags as $tag)
+                                    {{$tag}},
+                                @endforeach
                             </div>
                             <div class="form-group">
-                                <label for="status" >Publish date</label>
+                                <label for="status" >Status</label>
                                 <select  class="form-control"  name="status" title="">
                                     <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft</option>
-                                    <option value="publish"  {{ $news->status == 'published' ? 'selected' : '' }}>Publish</option>
+                                    <option value="published"  {{ $news->status == 'published' ? 'selected' : '' }}>Publish</option>
                                 </select>
                             </div>
                         </div>

@@ -14,65 +14,33 @@
                     <div class="card-header">
                         <h3 class="card-title">News Form</h3>
                     </div>
-                    <form method="POST" id="news_form" action="{{ route('news.update',['news'=>$news->id])}}"  role="form" >
+                    <form method="POST" id="news_category_form" action="{{ route('categories.update',['category'=>$category->id])}}"  role="form" >
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="category_id" >Category</label>
-                                <select  required class="form-control"  name="category_id" title="">
+                                <label for="category_id" >Parent Category</label>
+                                <select   class="form-control"  name="category_id" title="">
                                     <option value="">--- Please choose a category ---</option>
                                     @if($newsCategories)
                                         @foreach($newsCategories as $newsCategory)
-                                            <option  {{ $news->category_id == $newsCategory->id ? 'selected' : '' }}
-                                                     value="{{$newsCategory->id}}">{{$newsCategory->title}}</option>
+                                            @if($newsCategory->id != $category->id)
+                                                <option  {{ $category->category_id == $newsCategory->id ? 'selected' : '' }}
+                                                         value="{{$newsCategory->id}}">{{$newsCategory->title}}</option>
+                                            @endif
                                         @endforeach
                                     @endif
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="name">Title</label>
-                                <input value="{{ $news->title }}"  type="text" name="title" class="form-control"   placeholder="Enter news title" required>
+                                <input value="{{ $category->title }}"  type="text" name="title" class="form-control"   placeholder="Enter news title" required>
                             </div>
                             <div class="form-group">
                                 <label for="name">Slug</label>
-                                <input  value="{{ $news->slug}}"  type="text" name="slug" class="form-control"  placeholder="Enter news slug" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="short_description">Short description</label>
-                                <textarea   class="form-control"  cols="3" rows="2" name="short_description"  title="">{!! $news->short_description !!}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea  class="form-control"  cols="3" rows="5" name="description"  required title="" >{!! $news->description !!}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="external_url" >External Url</label>
-                                <input   value="{!!  $news->external_url  !!}" class="form-control"  type="url"
-                                         placeholder="e.g. https://news24/de/article/news-slug" name="external_url"
-                                         required pattern="^(http|https)://(.*)(/de/article(\/[a-zA-Z]\w*))"  title="External link"/>
+                                <input  value="{{ $category->slug}}"  type="text" name="slug" class="form-control"  placeholder="Enter news slug" required>
                             </div>
 
-                            <div class="form-group">
-                                <label for="feature_image" >Featured Image</label>
-                                <input   type="file" class="form-control"  name="feature_image"    />
-                                <img src="{{ asset($news->feature_image)}}"  />
-
-                            </div>
-                            <div class="form-group">
-                                <label for="publish_date" >Publish date</label>
-                                <input  value="{{ $news->publish_date }}" class="form-control" type="text"
-                                        placeholder="YYYY-MM-DD" required
-
-                                        title="Enter a date in this format YYYY-MM-DD" name="publish_date" required  />
-                            </div>
-                            <div class="form-group">
-                                <label for="status" >Publish date</label>
-                                <select  class="form-control"  name="status" title="">
-                                    <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft</option>
-                                    <option value="publish"  {{ $news->status == 'published' ? 'selected' : '' }}>Publish</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>

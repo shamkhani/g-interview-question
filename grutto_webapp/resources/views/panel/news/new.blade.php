@@ -60,11 +60,11 @@
                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required   />
               </div>
                 <div class="form-group">
-                    <label for="tags" >Publish date</label>
-                    <input type="text" name="tags" value="{{ old('tags'}}">
+                    <label for="tags" >Tags</label>
+                    <input type="text" name="tags" value="{{ old('tags')}}">
                 </div>
               <div class="form-group">
-                <label for="status" >Publish date</label>
+                <label for="status" >Status</label>
                 <select  class="form-control"  name="status" title="">
                   <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
                   <option value="publish"  {{ old('status') == 'published' ? 'selected' : '' }}>Publish</option>

@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Models\MariaDBModel as Model;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Abstract Repository class.
@@ -74,7 +76,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
         try {
             return $this->getModel()->findOrFail($id);
         } catch (\Throwable $exception) {
-            throw new NotFoundModelBaseOnId();
+            throw new ModelNotFoundException();
         }
     }
 
@@ -96,7 +98,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      * @param \Illuminate\Database\Eloquent\Model
      * @return Model
      */
-    public function update($model) : Model
+    public function update($model) : bool
     {
         if(property_exists($this->getModel(),'created_by')){
             $data['created_by'] = $model->created_by;
@@ -114,7 +116,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      * @param $id
      * @return Model
      */
-    public function updateById($data, $id) : Model
+    public function updateById($data, $id) : bool
     {
 
         $model = $this->getModelById($id);
@@ -124,8 +126,10 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
         if(property_exists($this->getModel(),'updated_by')) {
             $data['updated_by'] = Auth::user()->id;
         }
-        $this->getModel()->update($data);
-       return $model;
+
+        $model->fill($data);
+        return $model->save();
+
     }
 
     /**

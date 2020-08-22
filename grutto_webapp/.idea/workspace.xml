@@ -20,24 +20,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afb7c03b-73ec-43e4-99ba-556fd255fedf" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsCategoryController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/news_category/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/news_category/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/panel/news_category/new.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/grutto_webapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/grutto_webapp.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/API/APIController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/API/V1/NewsCategoryController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/API/V1/NewsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/NewsEditRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/panel/news/by_category.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsCategoryController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/NewsRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/NewsRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CategoryNewsRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/NewsCategoryEditRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/NewsCategoryResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/NewsCategoryResource.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/News.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/NewsCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/NewsCategory.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Repositories/MariaDBRepository/MariaDBRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/MariaDBRepository/MariaDBRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_08_140723_create_news_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_08_08_140723_create_news_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/MariaDBRepository/MariaDBRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/MariaDBRepository/MariaDBRepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/News/NewsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/News/NewsService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/News/NewsServiceInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/News/NewsServiceInterface.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/news/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/news/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/news/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/news/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/panel/news/new.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/news/new.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/news/view.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/news_category/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/news_category/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/news_category/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/news_category/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/panel/news_category/new.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/panel/news_category/new.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/vendor/adminlte/page.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/vendor/adminlte/page.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,19 +190,23 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Controllers/Panel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/panel/news" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/panel/news" />
+      <recent name="$PROJECT_DIR$/app/Http/Requests" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers/Panel/API/V1" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers/Panel/API" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Panel" />
-      <recent name="$PROJECT_DIR$/resources/views/panel" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Http/Controllers/Panel/API" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers/Panel/API/V1" />
       <recent name="C:\xampp\htdocs\grutto\grutto_webapp\resources\views\panel" />
       <recent name="C:\xampp\htdocs\grutto\grutto_webapp\app\Http\Controllers\Admin" />
       <recent name="C:\xampp\htdocs\grutto\grutto_webapp\app" />
-      <recent name="C:\xampp\htdocs\grutto\grutto_webapp\app\Models" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -211,7 +223,10 @@
       <workItem from="1597840167488" duration="119000" />
       <workItem from="1597840577713" duration="8871000" />
       <workItem from="1597850681156" duration="3146000" />
-      <workItem from="1597863337614" duration="7449000" />
+      <workItem from="1597863337614" duration="7504000" />
+      <workItem from="1597997294130" duration="16483000" />
+      <workItem from="1598096345381" duration="9901000" />
+      <workItem from="1598125782011" duration="438000" />
     </task>
     <servers />
   </component>
@@ -237,23 +252,29 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="698" y="302" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597870636041">
+    <state x="698" y="302" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598114622741">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="698" y="302" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1597870636041" />
-    <state x="100" y="100" width="1720" height="880" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1597871969520">
+    <state x="698" y="302" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1598114622740" />
+    <state x="100" y="100" width="1720" height="880" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598109779160">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="100" y="100" width="1720" height="880" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1597871969520" />
-    <state x="661" y="295" width="598" height="490" key="find.popup" timestamp="1597863418211">
+    <state x="100" y="100" width="1720" height="880" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1598109779160" />
+    <state x="661" y="295" width="598" height="548" key="find.popup" timestamp="1598108866402">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="661" y="295" width="598" height="490" key="find.popup/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1597863418211" />
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1597873204665">
+    <state x="661" y="295" width="598" height="548" key="find.popup/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1598108866402" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1598015818729">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1597873204665" />
+    <state width="600" height="428" key="javadoc.popup/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1598015818729" />
+    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1598118871968">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080/360.1080.1280.800@0.0.1920.1080" timestamp="1598118871968" />
+    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080/360.1103.1280.709@0.0.1920.1080" timestamp="1598043081181" />
   </component>
 </project>

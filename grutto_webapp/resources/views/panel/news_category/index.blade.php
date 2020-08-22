@@ -1,28 +1,25 @@
 @extends('adminlte::page')
 
-@section('title', 'News')
+@section('title', 'News Category')
 
 @section('content_header')
-    <h1>News List</h1>
+    <h1>News Category List</h1>
 @stop
 
 @section('content')
 
 <div>
-<a  class="btn btn-primary" href="{{route("news.create")}}"><i class="fa-plus fa"></i> Create New</a>
+<a  class="btn btn-primary" href="{{route('categories.create')}}"><i class="fa-plus fa"></i> Create New</a>
 </div>
 <br>
-<table class="table table-rounded" id="news_table" class="display">
+<table class="table table-rounded" id="news_cat_table" class="display">
     <thead>
         <tr>
+            <th><input type="checkbox" class="chkCategoris"></th>
             <th>Title</th>
-            <th>Category</th>
-            <th>Short description</th>
-            <th>External Url</th>
-            <th>Publish date</th>
-            <th>Created at</th>
-            <th>Updated at</th>
-            <th>Status</th>
+            <th>Parent</th>
+            <th>Slug</th>
+            <th>News</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -35,28 +32,61 @@
 @stop
 
 @section('css')
-
 @stop
-@section('plugins.Datatables', true)
 @section('js')
 <script>
+    function deleteItem(id) {
 
-$(document).ready( function () {
+        if(confirm('Are you sure?')){
+            $.ajax({
+                url: "{{ url('api/v1/news/categories/') }}"+ "/"+id ,
+                method: "DELETE",
+                data: { },
+                dataType: "json",
+                success:function( response ) {
+                    alert(response.msg);
+                    $('#row_'+id).remove();
+                },
+                error:function( XMLHttpRequest, textStatus, errorThrow) {
+                    console.log(XMLHttpRequest, textStatus, errorThrow)
+                }
+            });
+        }
+    }
+    function loadData(){
+        $.ajax({
+            url: "{{ url('api/v1/news/categories') }}",
+            method: "GET",
+            data: { },
+            dataType: "json",
+            success:function( response ) {
+                $.each(response.data,function(k,v){
+                    console.log(v.news);
+                    let row =  '<tr id="row_'+v.id+'">';
+                    row += '<td><input class="chkNews" id='+ v.id +' type="checkbox"  > </td>';
+                    row += '<td><a href="/panel/news/category/'+ v.id +'/'+ v.slug +'">'+ v.title +'</a></td>';
+                    row += '<td>'+ v.category_title +'</td>';
+                    row += '<td>'+ v.slug +'</td>';
+                    row += '<td>'+ v.news.length +'</td>';
+                    row += '<td id="action_col"><a href="#" onclick="deleteItem(\''+ v.id +'\')">Delete</a> | ';
+                    row += '<a href="categories/'+ v.id +'/edit" >Edit</a></td>';
+                    row += '</tr>';
+                    $('#news_cat_table tbody').append(row);
+                });
+            },
+            error:function( XMLHttpRequest, textStatus, errorThrow) {
+                console.log(XMLHttpRequest, textStatus, errorThrow)
+            }
+        });
+    }
+
+    $(document).ready( function () {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var request = $.ajax({
-        url: "{{ route('news.index_ajax') }}",
-        method: "POST",
-        data: { id : menuId },
-        dataType: "html"
-    }).done(function( response ) {
-        $('#news_table tbody').text(response)
-    }).fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
-    });
+   loadData();
 
 
 });

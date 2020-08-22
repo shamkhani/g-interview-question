@@ -3,19 +3,20 @@
 @section('title', 'News')
 
 @section('content_header')
-    <h1>News List</h1>
+    <h1>News List Items </h1>
 @stop
 
 @section('content')
 
 <div>
 <a  class="btn btn-primary" href="{{route("news.create")}}"><i class="fa-plus fa"></i> Create New</a>
+<a  class="btn btn-default" href="#" onclick="deleteSelectedItem()"><i class="fa-minus fa"></i> Delete Selected Item</a>
 </div>
 <br>
 <table class="table table-rounded" id="news_table" class="display">
     <thead>
         <tr>
-            <th><input type="checkbox" onclick="selectAll()"></th>
+            <th><input type="checkbox" id="chkSelectAll"></th>
             <th>Title</th>
             <th>Category</th>
             <th>External Url</th>
@@ -59,9 +60,48 @@
         }
     }
 
+    $('#chkSelectAll').click(function(event) {
+        if(this.checked) {
+            $('.chk:checkbox').each(function() {
+                this.checked = true;
+            });
+        }
+        else {
+            $('.chk:checkbox').each(function() {
+                this.checked = false;
+            });
+        }
+    });
+
+    function deleteSelectedItem() {
+        var items=[];
+        if(confirm('Are you sure?')){
+            $(".chk:checked").each(function(k,v) {
+              items.push(this.id);
+            });
+            console.log(items);
+            return;
+            $.ajax({
+                url: "{{ url('api/v1/news/') }}" ,
+                method: "DELETE",
+                data: { 'items':items },
+                dataType: "json",
+                success:function( response ) {
+                    $.each(response.data, function (item) {
+                        $('#row_'+item).remove();
+                    })
+                },
+                error:function( XMLHttpRequest, textStatus, errorThrow) {
+                    console.log(XMLHttpRequest, textStatus, errorThrow)
+                }
+            });
+        }
+    }
+
+
     function loadData(){
         $.ajax({
-            url: "{{ url('api/v1/news') }}",
+            url: "{{ route('news.by.category', ['cid'=>$cid,'slug'=> $slug]) }}",
             method: "GET",
             data: { },
             dataType: "json",
@@ -69,7 +109,7 @@
                 $.each(response.data,function(k,v){
 
                     let row =  '<tr id="row_'+v.id+'">';
-                    row += '<td><input class="chkNews" id='+ v.id +' type="checkbox"  > </td>';
+                    row += '<td><input class="chk" id='+ v.id +' type="checkbox"  > </td>';
                     row += '<td>'+ v.title +'</td>';
                     row += '<td>'+ v.category_title +'</td>';
                     row += '<td>'+ v.external_url +'</td>';
@@ -98,8 +138,6 @@ $(document).ready( function () {
         }
     });
     loadData();
-
-
 });
 </script>
 @stop
