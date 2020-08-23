@@ -149,4 +149,12 @@ class NewsService implements NewsServiceInterface
     public function getNewsByCategoryId(int $cid){
         return $this->newsRepository->find([["category_id",'=',$cid]],false);
     }
+
+    /**
+     * @param array $cids
+     * @return mixed
+     */
+    public function getNewsByCategoryIds(array $cids){
+        return $this->newsRepository->getNewsByCategoryIds($cids);
+    }
 }

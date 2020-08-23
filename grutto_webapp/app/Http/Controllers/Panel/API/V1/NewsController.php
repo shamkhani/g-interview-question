@@ -35,14 +35,20 @@ class NewsController extends APIController
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try{
+            $idsString = $request->get('cids');
+            if($idsString){
+               $ids = explode(',',$idsString);
+                $news = $this->newsService->getNewsByCategoryIds($ids);
+                return NewsResource::collection($news);
+            }
             $news = $this->newsService->getAllNewsByPagination();
             return NewsResource::collection($news);
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
-            return  Common\ResponseService::error(500, $ex);
+            return  Common\ResponseService::error(Common\ResponseService::STATUS_CODE_FLOW_ERROR_500, $ex->getMessage());
         }
     }
 

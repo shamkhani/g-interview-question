@@ -10,7 +10,7 @@
 
 <div>
 <a  class="btn btn-primary" href="{{route("news.create")}}"><i class="fa-plus fa"></i> Create New</a>
-<a  class="btn btn-default" href="#" onclick="deleteSelectedItem()"><i class="fa-minus fa"></i> Delete Selected Item</a>
+<a  class="btn btn-default" href="#" onclick="deleteSelectedItem()"><i class="fa-remove fa"></i> Delete Selected Item</a>
 </div>
 <br>
 <table class="table table-rounded" id="news_table" class="display">
@@ -73,6 +73,9 @@
         }
     });
 
+    $('chk').on('click', function () {
+
+    })
     function deleteSelectedItem() {
         var items=[];
         if(confirm('Are you sure?')){

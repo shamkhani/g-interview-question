@@ -34,12 +34,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
     }
 
 
-    /**
-     * Return the class path of repository's model.
-     *
-     * @return string
-     */
-    abstract protected function getModelClass();
+    abstract protected function getModelClass() ;
 
     /**
      * Create new instance of model.

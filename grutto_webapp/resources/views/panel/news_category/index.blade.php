@@ -10,12 +10,17 @@
 
 <div>
 <a  class="btn btn-primary" href="{{route('categories.create')}}"><i class="fa-plus fa"></i> Create New</a>
+
+<a  class="btn btn-default" href="#" onclick="deleteSelectedItem()"><i class="fa-remove fa"></i> Delete Selected Item</a>
 </div>
 <br>
+<ul id="news_list">
+
+</ul>
 <table class="table table-rounded" id="news_cat_table" class="display">
     <thead>
         <tr>
-            <th><input type="checkbox" class="chkCategoris"></th>
+            <th><input type="checkbox" id="chkSelectAll"></th>
             <th>Title</th>
             <th>Parent</th>
             <th>Slug</th>
@@ -24,8 +29,6 @@
         </tr>
     </thead>
     <tbody>
-
-
     </tbody>
 
 </table>
@@ -35,8 +38,12 @@
 @stop
 @section('js')
 <script>
-    function deleteItem(id) {
 
+    /**
+     * Delete an item
+     * @param id
+     */
+    function deleteItem(id) {
         if(confirm('Are you sure?')){
             $.ajax({
                 url: "{{ url('api/v1/news/categories/') }}"+ "/"+id ,
@@ -53,6 +60,54 @@
             });
         }
     }
+
+    /**
+     * Check all checkboxes
+     */
+    $('#chkSelectAll').click(function(event) {
+        if(this.checked) {
+            $('.chk:checkbox').each(function() {
+                this.checked = true;
+            });
+        }
+        else {
+            $('.chk:checkbox').each(function() {
+                this.checked = false;
+            });
+        }
+    });
+
+    /**
+     *  Delete Selected items
+     */
+    function deleteSelectedItem() {
+        var items=[];
+        if(confirm('Are you sure?')){
+            $(".chk:checked").each(function(k,v) {
+                items.push(this.id);
+            });
+            console.log(items);
+            return;
+            $.ajax({
+                url: "{{ url('api/v1/news/') }}" ,
+                method: "DELETE",
+                data: { 'items':items },
+                dataType: "json",
+                success:function( response ) {
+                    $.each(response.data, function (item) {
+                        $('#row_'+item).remove();
+                    })
+                },
+                error:function( XMLHttpRequest, textStatus, errorThrow) {
+                    console.log(XMLHttpRequest, textStatus, errorThrow)
+                }
+            });
+        }
+    }
+
+    /**
+     * Load Data into list
+     */
     function loadData(){
         $.ajax({
             url: "{{ url('api/v1/news/categories') }}",
@@ -63,7 +118,7 @@
                 $.each(response.data,function(k,v){
                     console.log(v.news);
                     let row =  '<tr id="row_'+v.id+'">';
-                    row += '<td><input class="chkNews" id='+ v.id +' type="checkbox"  > </td>';
+                    row += '<td><input class="chk" id='+ v.id +' type="checkbox"  > </td>';
                     row += '<td><a href="/panel/news/category/'+ v.id +'/'+ v.slug +'">'+ v.title +'</a></td>';
                     row += '<td>'+ v.category_title +'</td>';
                     row += '<td>'+ v.slug +'</td>';
@@ -78,17 +133,27 @@
                 console.log(XMLHttpRequest, textStatus, errorThrow)
             }
         });
+
     }
 
+
+
     $(document).ready( function () {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+
+        /**
+         * Load News when select an category
+         */
+        $(document).on('click', "input[class='chk']", function (event) {
+            alert("Category with id:"+ event.target.id + " selected");
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        loadData();
+
     });
-   loadData();
-
-
-});
 </script>
 @stop

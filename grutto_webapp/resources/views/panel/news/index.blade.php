@@ -10,12 +10,14 @@
 
 <div>
 <a  class="btn btn-primary" href="{{route("news.create")}}"><i class="fa-plus fa"></i> Create New</a>
+
+<a  class="btn btn-default" href="#" onclick="deleteSelectedItem()"><i class="fa-remove fa"></i> Delete Selected Item</a>
 </div>
 <br>
 <table class="table table-rounded" id="news_table" class="display">
     <thead>
         <tr>
-            <th><input type="checkbox" onclick="selectAll()"></th>
+            <th><input type="checkbox" id="chkSelectAll"></th>
             <th>Title</th>
             <th>Category</th>
             <th>External Url</th>
@@ -51,6 +53,44 @@
                 success:function( response ) {
                     alert(response.msg);
                     $('#row_'+id).remove();
+                },
+                error:function( XMLHttpRequest, textStatus, errorThrow) {
+                    console.log(XMLHttpRequest, textStatus, errorThrow)
+                }
+            });
+        }
+    }
+
+    $('#chkSelectAll').click(function(event) {
+        if(this.checked) {
+            $('.chk:checkbox').each(function() {
+                this.checked = true;
+            });
+        }
+        else {
+            $('.chk:checkbox').each(function() {
+                this.checked = false;
+            });
+        }
+    });
+
+    function deleteSelectedItem() {
+        var items=[];
+        if(confirm('Are you sure?')){
+            $(".chk:checked").each(function(k,v) {
+                items.push(this.id);
+            });
+            console.log(items);
+            return;
+            $.ajax({
+                url: "{{ url('api/v1/news/') }}" ,
+                method: "DELETE",
+                data: { 'items':items },
+                dataType: "json",
+                success:function( response ) {
+                    $.each(response.data, function (item) {
+                        $('#row_'+item).remove();
+                    })
                 },
                 error:function( XMLHttpRequest, textStatus, errorThrow) {
                     console.log(XMLHttpRequest, textStatus, errorThrow)

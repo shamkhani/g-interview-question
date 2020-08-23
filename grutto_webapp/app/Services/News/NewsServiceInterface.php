@@ -86,4 +86,10 @@ interface NewsServiceInterface {
      * @return mixed
      */
     public function getNewsByCategoryId(int $cid);
+
+    /**
+     * @param array $cids
+     * @return mixed
+     */
+    public function getNewsByCategoryIds(array $cids);
 }
