@@ -11,6 +11,7 @@ use App\Services\Common;
 use App\Services\NewsServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class NewsController
@@ -86,6 +87,13 @@ class NewsController extends Controller
         try{
 
             $news = $this->newsService->createNews($request->all());
+            if($news){
+                $request->file('feature_image')->store();
+            }
+            $tags = $request->get('tags');
+            if($tags){
+                $news->tags()->createMany(explode(',',$tags));
+            }
             return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been created']);
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
@@ -106,10 +114,17 @@ class NewsController extends Controller
             $data = $request->all();
             if($request->get('feature_image') == null){
                 unset($data['feature_image']);
+            }else{
+                // TODO We can unlink old file
+                  $request->file('feature_image')->store(storage_path('images'));
             }
 
-            $updated = $this->newsService->updateNews($data, $news);
-            if($updated) {
+            $news = $this->newsService->updateNews($data, $news);
+            $tags = $request->get('tags');
+            if($tags){
+                $news->tags()->createMany(explode(',',$tags));
+            }
+            if($news) {
                 return redirect()->back()->with(['success' => 'News has been updated']);
             }else {
                 return redirect()->back()->with(['error' => 'There is an error to upate news']);

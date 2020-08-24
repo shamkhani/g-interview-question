@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Panel\API\V1;
+namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Panel\API\APIController;
+use App\Http\Controllers\API\APIController;
 use App\Http\Requests\NewsRequest;
 use App\Models\News;
 use App\Resources\NewsResource;
@@ -105,21 +105,29 @@ class NewsController extends APIController
     public function destroyByIds(Request $request)
     {
         $deletedItem = [];
-        $ids = $request->getQueryString('ids');
+        $errorsItem = [];
+        $ids = $request->get('ids');
         try{
             foreach ($ids as $id){
                 $result = $this->newsService->removeNews($id);
                 if($result){
-                    Arr::add($deletedItem,$id);
+                    array_push($deletedItem, $id);
+                }else{
+                    array_push($errorsItem, $id);
                 }
             }
+
             if ($deletedItem){
-                return Common\ResponseService::success($deletedItem,"Items have beeen deleted");
+                return Common\ResponseService::success($deletedItem,count($deletedItem) . " news item(s) has been deleted.");
             }
-            return Common\ResponseService::error(500,'News can not delete! there is a problem');
+            return Common\ResponseService::error(500,count($errorsItem) . " have been faced to error during delete process.");
+
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
-            return Common\ResponseService::error(500,'News can not delete! there is a problem');
+            if($ex->getCode()==23000){
+                return Common\ResponseService::error(500, 'news you selected to delete has related items, please delete them first.');;
+            }
+            return Common\ResponseService::error(500,$ex->getMessage());
 
         }
     }

@@ -55,6 +55,7 @@
                     $('#row_'+id).remove();
                 },
                 error:function( XMLHttpRequest, textStatus, errorThrow) {
+                    alert(XMLHttpRequest.responseJSON.msg);
                     console.log(XMLHttpRequest, textStatus, errorThrow)
                 }
             });
@@ -80,19 +81,19 @@
             $(".chk:checked").each(function(k,v) {
                 items.push(this.id);
             });
-            console.log(items);
-            return;
             $.ajax({
                 url: "{{ url('api/v1/news/') }}" ,
                 method: "DELETE",
-                data: { 'items':items },
+                data: { 'ids':items },
                 dataType: "json",
                 success:function( response ) {
-                    $.each(response.data, function (item) {
+                    alert(response.msg);
+                    $.each(response.data, function (k,v) {
                         $('#row_'+item).remove();
                     })
                 },
                 error:function( XMLHttpRequest, textStatus, errorThrow) {
+                    alert(XMLHttpRequest.responseJSON.msg);
                     console.log(XMLHttpRequest, textStatus, errorThrow)
                 }
             });
@@ -109,7 +110,7 @@
                 $.each(response.data,function(k,v){
 
                     let row =  '<tr id="row_'+v.id+'">';
-                    row += '<td><input class="chkNews" id='+ v.id +' type="checkbox"  > </td>';
+                    row += '<td><input class="chk" id='+ v.id +' type="checkbox"  > </td>';
                     row += '<td>'+ v.title +'</td>';
                     row += '<td>'+ v.category_title +'</td>';
                     row += '<td>'+ v.external_url +'</td>';

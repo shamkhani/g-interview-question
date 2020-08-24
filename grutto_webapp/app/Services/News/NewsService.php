@@ -7,6 +7,7 @@ use App\Models\NewsCategory;
 use App\Repositories\NewsCategoryRepositoryInterface;
 use App\Repositories\NewsRepositoryInterface;
 use App\Repositories\TagRepositoryInterface;
+use Highlight\Mode;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -71,7 +72,7 @@ class NewsService implements NewsServiceInterface
      * @param int $id
      * @return \App\Models\MariaDBModel|News.
      */
-    public function updateNews(array $data, int $id) : bool
+    public function updateNews(array $data, int $id) : Model
     {
         return $this->newsRepository->updateById($data, $id);
     }

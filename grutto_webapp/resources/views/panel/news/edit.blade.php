@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h3 class="card-title">News Form</h3>
                     </div>
-                    <form method="POST" id="news_form" action="{{ route('news.update',['news'=>$news->id])}}"  role="form" >
+                    <form method="POST" id="news_form" action="{{ route('news.update',['news'=>$news->id])}}"  role="form"  enctype="multipart/form-data" >
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
                         <div class="card-body">
@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <label for="feature_image" >Featured Image</label>
                                 <input   type="file" class="form-control"  name="feature_image"    />
-                                <img src="{{ asset($news->feature_image)}}"  />
+                                <img src="{{ Storage::url('images/'. $news->feature_image)}}"  />
 
                             </div>
                             <div class="form-group">

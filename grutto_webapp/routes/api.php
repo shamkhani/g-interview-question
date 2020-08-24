@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Panel\API'], function ($router) {
+Route::group(['namespace' => 'API'], function ($router) {
     Route::group(['prefix' => 'v1','namespace' => 'V1'], function ($router) {
         $router->get('news/categories', "NewsCategoryController@index");
         $router->delete('news/categories/{id}', "NewsCategoryController@destroy");
+        $router->delete('news/categories', "NewsCategoryController@destroyByIds");
 
         $router->get('news', "NewsController@index");
         $router->get('news/{news}', "NewsController@getNewsItem");

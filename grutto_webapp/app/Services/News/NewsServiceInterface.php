@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\News;
 use App\Models\NewsCategory;
+use Highlight\Mode;
 use Illuminate\Database\Eloquent\Model;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -33,7 +34,7 @@ interface NewsServiceInterface {
      * @param int $id
      * @return \App\Models\MariaDBModel|News
      */
-    public function updateNews(array  $data, int $id) : bool;
+    public function updateNews(array  $data, int $id) : Model;
 
     /**
      * @param $id
@@ -73,7 +74,7 @@ interface NewsServiceInterface {
      * @param int $id
      * @return \App\Models\MariaDBModel|NewsCategory
      */
-    public function updateNewsCategory(array  $data, int $id) : bool;
+    public function updateNewsCategory(array  $data, int $id) : bool ;
 
     /**
      * @param $id

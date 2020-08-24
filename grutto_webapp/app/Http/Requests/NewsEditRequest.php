@@ -31,6 +31,7 @@ class NewsEditRequest extends FormRequest
             'short_description'=>'max:2048',
             'description'=> 'required',
             'publish_date'=> 'date_format:Y-m-d',
+            'feature_image'=> 'mimes:jpeg,bmp,png|max:2048',
             'status' => Rule::in(['draft', 'published']),
             'created_by' => 'exists:App\User,id',
             'updated_by' => 'exists:App\User,id',

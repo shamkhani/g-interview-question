@@ -111,7 +111,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      * @param $id
      * @return Model
      */
-    public function updateById($data, $id) : bool
+    public function updateById($data, $id) : Model
     {
 
         $model = $this->getModelById($id);
@@ -123,7 +123,8 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
         }
 
         $model->fill($data);
-        return $model->save();
+        $model->save();
+        return $model;
 
     }
 

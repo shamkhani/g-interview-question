@@ -37,7 +37,7 @@ interface MariaDBRepositoryInterface
      * @param $id
      * @return Model
      */
-    public function updateById($data, $id) : bool ;
+    public function updateById($data, $id) : Model ;
 
     /**
      * Removes entity from database by passing model.
