@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsEditRequest;
 use App\Http\Requests\NewsRequest;
 use App\Models\News;
+use App\Models\Tag;
 use App\Resources\NewsResource;
 use App\Services\Common;
 use App\Services\NewsServiceInterface;
@@ -114,16 +115,19 @@ class NewsController extends Controller
             $data = $request->all();
             if($request->get('feature_image') == null){
                 unset($data['feature_image']);
-            }else{
-                // TODO We can unlink old file
-                  $request->file('feature_image')->store(storage_path('images'));
             }
 
             $news = $this->newsService->updateNews($data, $news);
+            if($request->get('feature_image') != null){
+                // TODO : Unlink old image
+                $request->file('feature_image')->store(storage_path('images'));
+            }
+
             $tags = $request->get('tags');
             if($tags){
-                $news->tags()->createMany(explode(',',$tags));
+                $this->newsService->createAndSyncTags($news, $tags);
             }
+            
             if($news) {
                 return redirect()->back()->with(['success' => 'News has been updated']);
             }else {

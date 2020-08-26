@@ -10,4 +10,5 @@ interface NewsRepositoryInterface extends MariaDBRepositoryInterface
      * @return mixed
      */
     public function getNewsByCategoryIds(array $cids);
+
 }

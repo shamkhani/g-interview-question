@@ -93,4 +93,12 @@ interface NewsServiceInterface {
      * @return mixed
      */
     public function getNewsByCategoryIds(array $cids);
+
+
+    /**
+     * @param News $news
+     * @param string $tags
+     * @return mixed
+     */
+    public function createAndSyncTags(News $news,string $tags);
 }

@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\MariaDBModel as Model;
 
+use App\Models\News;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -276,6 +278,15 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
     public function bulkCreate($data)
     {
         $this->model::insert($data);
+    }
+
+    /**
+     * @param array $data
+     * @return mixed|void
+     */
+    public function firstOrCreate(array $data)
+    {
+       return $this->getModel()->firstOrCreate($data);
     }
 
 

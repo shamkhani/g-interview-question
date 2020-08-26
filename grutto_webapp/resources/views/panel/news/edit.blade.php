@@ -56,22 +56,22 @@
                             <div class="form-group">
                                 <label for="feature_image" >Featured Image</label>
                                 <input   type="file" class="form-control"  name="feature_image"    />
-                                <img src="{{ Storage::url('images/'. $news->feature_image)}}"  />
-
                             </div>
+                            @if($news->feature_image)
+                            <div class="form-group">
+                                <img src="{{ Storage::url('images/'. $news->feature_image)}}"  />
+                            </div>
+                            @endif
                             <div class="form-group">
                                 <label for="publish_date" >Publish date</label>
                                 <input  value="{{ $news->publish_date }}" class="form-control" type="text"
                                         placeholder="YYYY-MM-DD" required
-
                                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required  />
                             </div>
                             <div class="form-group">
                                 <label for="tags" >Tags</label>
-                                <input class="form-control" type="text" name="tags" value="">
-                                @foreach($news->tags as $tag)
-                                    {{$tag}},
-                                @endforeach
+                                <input class="form-control" placeholder="split each tag with comma ',' e.g. great_news,grutto_company" type="text" name="tags" value="{{$news->newsTags}}">
+
                             </div>
                             <div class="form-group">
                                 <label for="status" >Status</label>

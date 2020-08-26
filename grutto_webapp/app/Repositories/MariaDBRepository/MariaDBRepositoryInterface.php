@@ -119,4 +119,9 @@ interface MariaDBRepositoryInterface
     public function bulkCreate($data);
 
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function firstOrCreate(array $data);
 }

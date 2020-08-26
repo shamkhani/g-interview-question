@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\News;
 use App\Models\NewsCategory;
+use App\Models\Tag;
 use App\Repositories\NewsCategoryRepositoryInterface;
 use App\Repositories\NewsRepositoryInterface;
 use App\Repositories\TagRepositoryInterface;
@@ -158,4 +159,23 @@ class NewsService implements NewsServiceInterface
     public function getNewsByCategoryIds(array $cids){
         return $this->newsRepository->getNewsByCategoryIds($cids);
     }
+
+
+    /**
+     * Once the news has been saved, we deal with the tag logic.
+     * Grab the tag or tags from the field, sync them with the news
+     *
+     * @param string $tags
+     */
+    public function createAndSyncTags(News $news, string $tags)
+    {
+
+        $tagsNames = explode(',', $tags);
+        foreach($tagsNames as $tagName){
+            $this->tagRepository->firstOrCreate(['title' => $tagName]);
+        }
+        $tags = $this->tagRepository->getTagsIdsByNames($tagsNames);
+        $news->tags()->sync($tags);
+
+   }
 }

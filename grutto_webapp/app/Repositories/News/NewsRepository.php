@@ -23,4 +23,5 @@ class NewsRepository extends MariaDBRepository implements NewsRepositoryInterfac
     {
         return $this->model->whereIn('category_id',$cids )->get()->take(3);
     }
+
 }

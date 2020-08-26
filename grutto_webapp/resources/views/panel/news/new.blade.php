@@ -61,7 +61,7 @@
               </div>
                 <div class="form-group">
                     <label for="tags" >Tags</label>
-                    <input type="text" name="tags" value="{{ old('tags')}}">
+                    <input type="text"  placeholder="split each tag with comma ',' e.g. great_news,grutto_company" name="tags" value="{{ old('tags')}}">
                 </div>
               <div class="form-group">
                 <label for="status" >Status</label>
