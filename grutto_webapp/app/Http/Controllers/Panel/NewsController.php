@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsEditRequest;
 use App\Http\Requests\NewsRequest;
 use App\Models\News;
+use App\Models\Tag;
 use App\Resources\NewsResource;
 use App\Services\Common;
 use App\Services\NewsServiceInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class NewsController
@@ -70,8 +74,8 @@ class NewsController extends Controller
             return view('panel.news.edit', compact('news'));
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
-            return redirect(route('news.create'))
-                ->withErrors('There is a problem to show news');
+            return redirect()->back()
+                ->with(['error'=>$ex->getMessage()]);
         }
     }
 
@@ -81,54 +85,73 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-//        try{
+        try{
+
             $news = $this->newsService->createNews($request->all());
+            if($news){
+                $request->file('feature_image')->store();
+            }
+            $tags = $request->get('tags');
+            if($tags){
+                $news->tags()->createMany(explode(',',$tags));
+            }
             return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been created']);
-//        }catch (\Exception $ex){
-//            Common\Logger::logError($ex);
-//            return redirect(route('news.create'))
-//            		->withInput($request->all())
-//            		->withErrors($ex->getMessage());
-//        }
+        }catch (\Exception $ex){
+            Common\Logger::logError($ex);
+              return redirect()->back()
+            		->withInput($request->all())
+            		->with(['error'=>$ex->getMessage()]);
+        }
     }
 
     /**
-     * @param NewsRequest $request
+     * @param NewsEditRequest $request
      * @param $news
      * @return \Illuminate\Http\Response
      */
-    public function update(NewsRequest $request, $news)
-    {
-//        try{
-            $data = $request->all();
-
-            $news = $this->newsService->updateNews($data, $news);
-            return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been updated']);
-//        }catch (\Exception $ex){
-//            Common\Logger::logError($ex);
-//            return redirect(route('news.edit',['news'=>$news]))
-//                ->withInput($request->all())
-//                ->withErrors($request->validator);
-//        }
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update(NewsEditRequest $request, $news)
     {
         try{
-            $result = $this->newsService->removeNews($id);
-            if($result){
-                return redirect(route('news.index'))->with(['success'=>'News has been delete']);
+            $data = $request->all();
+            if($request->get('feature_image') == null){
+                unset($data['feature_image']);
             }
-            return redirect(route('news.index'))->with(['error'=>'News can not delete! there is a problem']);
+
+            $news = $this->newsService->updateNews($data, $news);
+            if($request->get('feature_image') != null){
+                // TODO : Unlink old image
+                $request->file('feature_image')->store(storage_path('images'));
+            }
+
+            $tags = $request->get('tags');
+            if($tags){
+                $this->newsService->createAndSyncTags($news, $tags);
+            }
+            
+            if($news) {
+                return redirect()->back()->with(['success' => 'News has been updated']);
+            }else {
+                return redirect()->back()->with(['error' => 'There is an error to upate news']);
+            }
+
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
-            return redirect('news.index')
-                ->withErrors('News can not delete! there is a problem');
+               return redirect()->back()
+            		->withInput($request->all())
+            		->with(['error'=>$ex->getMessage()]);
         }
-
+        catch (ModelNotFoundException $ex){
+            Common\Logger::logError($ex);
+            return redirect()->back()
+                ->withInput($request->all())
+                ->with(['error'=>$ex->getMessage()]);
+        }
     }
+
+
+    public function getNewsByCategoryId(Request $request, $cid, $slug)
+    {
+        return view('panel.news.by_category',compact('cid','slug'));
+    }
+
 }

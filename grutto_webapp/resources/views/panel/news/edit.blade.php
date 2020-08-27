@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h3 class="card-title">News Form</h3>
                     </div>
-                    <form method="POST" id="news_form" action="{{ route('news.update',['news'=>$news->id])}}"  role="form" >
+                    <form method="POST" id="news_form" action="{{ route('news.update',['news'=>$news->id])}}"  role="form"  enctype="multipart/form-data" >
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
                         <div class="card-body">
@@ -56,25 +56,28 @@
                             <div class="form-group">
                                 <label for="feature_image" >Featured Image</label>
                                 <input   type="file" class="form-control"  name="feature_image"    />
-                                <img src="{{ asset($news->feature_image)}}"  />
-
                             </div>
+                            @if($news->feature_image)
+                            <div class="form-group">
+                                <img src="{{ Storage::url('images/'. $news->feature_image)}}"  />
+                            </div>
+                            @endif
                             <div class="form-group">
                                 <label for="publish_date" >Publish date</label>
                                 <input  value="{{ $news->publish_date }}" class="form-control" type="text"
                                         placeholder="YYYY-MM-DD" required
-
                                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required  />
                             </div>
                             <div class="form-group">
-                                <label for="tags" >Publish date</label>
-                                <input type="text" name="tags" value="{{ $news->tags }}">
+                                <label for="tags" >Tags</label>
+                                <input class="form-control" placeholder="split each tag with comma ',' e.g. great_news,grutto_company" type="text" name="tags" value="{{$news->newsTags}}">
+
                             </div>
                             <div class="form-group">
-                                <label for="status" >Publish date</label>
+                                <label for="status" >Status</label>
                                 <select  class="form-control"  name="status" title="">
                                     <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft</option>
-                                    <option value="publish"  {{ $news->status == 'published' ? 'selected' : '' }}>Publish</option>
+                                    <option value="published"  {{ $news->status == 'published' ? 'selected' : '' }}>Publish</option>
                                 </select>
                             </div>
                         </div>

@@ -4,9 +4,13 @@ namespace App\Repositories;
 
 use App\Models\MariaDBModel as Model;
 
+use App\Models\News;
+use App\Models\Tag;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Abstract Repository class.
@@ -32,12 +36,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
     }
 
 
-    /**
-     * Return the class path of repository's model.
-     *
-     * @return string
-     */
-    abstract protected function getModelClass();
+    abstract protected function getModelClass() ;
 
     /**
      * Create new instance of model.
@@ -74,7 +73,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
         try {
             return $this->getModel()->findOrFail($id);
         } catch (\Throwable $exception) {
-            throw new NotFoundModelBaseOnId();
+            throw new ModelNotFoundException();
         }
     }
 
@@ -96,7 +95,7 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
      * @param \Illuminate\Database\Eloquent\Model
      * @return Model
      */
-    public function update($model) : Model
+    public function update($model) : bool
     {
         if(property_exists($this->getModel(),'created_by')){
             $data['created_by'] = $model->created_by;
@@ -124,8 +123,11 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
         if(property_exists($this->getModel(),'updated_by')) {
             $data['updated_by'] = Auth::user()->id;
         }
-        $this->getModel()->update($data);
-       return $model;
+
+        $model->fill($data);
+        $model->save();
+        return $model;
+
     }
 
     /**
@@ -276,6 +278,15 @@ abstract class MariaDBRepository implements  MariaDBRepositoryInterface
     public function bulkCreate($data)
     {
         $this->model::insert($data);
+    }
+
+    /**
+     * @param array $data
+     * @return mixed|void
+     */
+    public function firstOrCreate(array $data)
+    {
+       return $this->getModel()->firstOrCreate($data);
     }
 
 

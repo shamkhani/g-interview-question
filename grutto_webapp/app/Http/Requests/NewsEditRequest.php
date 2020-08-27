@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class NewsRequest extends FormRequest
+class NewsEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,9 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id'=>  'required|exists:App\Models\NewsCategory, id',
-            'title' => 'required|unique:news|max:255',
-            'slug' => 'required|unique:news|max:255',
+//            'category_id'=>  'required|exists:App\Models\NewsCategory, id',
+            'title' => 'required|max:255',
+            'slug' => 'required|max:255',
             'short_description'=>'max:2048',
             'description'=> 'required',
             'publish_date'=> 'date_format:Y-m-d',

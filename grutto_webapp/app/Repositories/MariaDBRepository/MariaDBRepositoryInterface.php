@@ -31,13 +31,13 @@ interface MariaDBRepositoryInterface
      * @param \Illuminate\Database\Eloquent\Model
      * @return Model
      */
-    public function update($model) : Model;
+    public function update($model) : bool;
     /**
      * @param $data
      * @param $id
      * @return Model
      */
-    public function updateById($data, $id) : Model;
+    public function updateById($data, $id) : Model ;
 
     /**
      * Removes entity from database by passing model.
@@ -119,4 +119,9 @@ interface MariaDBRepositoryInterface
     public function bulkCreate($data);
 
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function firstOrCreate(array $data);
 }

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NewsRequest;
-use App\Models\News;
+use App\Http\Requests\NewsCategoryEditRequest;
+use App\Http\Requests\NewsCategoryRequest;
+use App\Http\Requests\NewsCategoryRequestRequest;
+use App\Models\NewsCategory;
 use App\Resources\NewsResource;
 use App\Services\Common;
 use App\Services\NewsServiceInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Class NewsController
@@ -35,19 +39,15 @@ class NewsCategoryController extends Controller
      */
     public function index(Request $request)
     {
-//        try{
-//            if($request->ajax()) // This is check ajax request
-//            {
-//                $news = $this->newsService->getAllNewsByPagination();
-//                return NewsResource::collection($news);
-//            }
-
+        try{
             return view('panel.news_category.index');
 
-//        }catch (\Exception $ex){
-//            Common\Logger::logError($ex);
-//            return  Common\ResponseService::error(500, $ex);
-//        }
+        }catch (\Exception $ex){
+            Common\Logger::logError($ex);
+           return redirect()->back()
+            		->withInput($request->all())
+            		->with(['error'=>$ex->getMessage()]);
+        }
     }
 
     /**
@@ -57,78 +57,65 @@ class NewsCategoryController extends Controller
         $newsCategories = $this->newsService->getAllNewsCategoryForNewsList();
         return view('panel.news_category.new', compact('newsCategories'));
     }
-    public function edit(News $news){
+    public function edit(NewsCategory $category){
         $newsCategories = $this->newsService->getAllNewsCategoryForNewsList();
-        return view('panel.news_category.edit', compact('news','newsCategories'));
+        return view('panel.news_category.edit', compact('category','newsCategories'));
     }
     /**
-     * @param News $news
+     * @param NewsCategory $category
        */
-    public function show(News $news)
+    public function show(NewsCategory $category)
     {
         try{
-            return view('panel.news_category.edit', compact('news'));
+            return view('panel.news_category.edit', compact('category'));
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
-            return redirect(route('news.create'))
-                ->withErrors('There is a problem to show news');
+            return redirect()->back()
+            		->with(['error'=>$ex->getMessage()]);
         }
     }
 
     /**
-     * @param NewsRequest $request
+     * @param NewsCategoryRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NewsRequest $request)
+    public function store(NewsCategoryRequest $request)
     {
-//        try{
-            $news = $this->newsService->createNews($request->all());
-            return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been created']);
-//        }catch (\Exception $ex){
-//            Common\Logger::logError($ex);
-//            return redirect(route('news.create'))
-//            		->withInput($request->all())
-//            		->withErrors($ex->getMessage());
-//        }
+        try{
+            $category = $this->newsService->createNewsCategory($request->all());
+            return redirect(route('categories.edit',['category'=>$category->id]))->with(['success'=>'News category has been created']);
+        }catch (\Exception $ex){
+            Common\Logger::logError($ex);
+            return redirect()->back()
+            		->withInput($request->all())
+            		->with(['error'=>$ex->getMessage()]);
+        }
     }
 
     /**
-     * @param NewsRequest $request
-     * @param $news
+     * @param NewsCategoryEditRequest $request
+     * @param $category
      * @return \Illuminate\Http\Response
      */
-    public function update(NewsRequest $request, $news)
+    public function update(NewsCategoryEditRequest $request, $category)
     {
-//        try{
+        try{
             $data = $request->all();
-
-            $news = $this->newsService->updateNews($data, $news);
-            return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been updated']);
-//        }catch (\Exception $ex){
-//            Common\Logger::logError($ex);
-//            return redirect(route('news.edit',['news'=>$news]))
-//                ->withInput($request->all())
-//                ->withErrors($request->validator);
-//        }
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        try{
-            $result = $this->newsService->removeNews($id);
-            if($result){
-                return redirect(route('news.index'))->with(['success'=>'News has been delete']);
-            }
-            return redirect(route('news.index'))->with(['error'=>'News can not delete! there is a problem']);
+            $category = $this->newsService->updateNewsCategory($data, $category);
+            return redirect()->back()->with(['success'=>'NewsCategory has been updated']);
         }catch (\Exception $ex){
             Common\Logger::logError($ex);
-            return redirect('news.index')
-                ->withErrors('News can not delete! there is a problem');
+               return redirect()->back()
+            		->withInput($request->all())
+            		->with(['error'=>$ex->getMessage()]);
         }
-
+        catch (ModelNotFoundException $ex){
+            Common\Logger::logError($ex);
+               return redirect()->back()
+            		->withInput($request->all())
+            		->with(['error'=>$ex->getMessage()]);
+        }
     }
+
+
 }

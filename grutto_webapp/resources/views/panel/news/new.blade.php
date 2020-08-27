@@ -14,7 +14,7 @@
           <div class="card-header">
             <h3 class="card-title">News Form</h3>
           </div>
-          <form method="POST" id="news_form" action="{{ route('news.store')}}"  role="form" >
+          <form method="POST" id="news_form" action="{{ route('news.store')}}"  role="form"  enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="card-body">
                 <div class="form-group">
@@ -52,7 +52,7 @@
 
               <div class="form-group">
                 <label for="feature_image" >Featured Image</label>
-                <input  value="{{ old('feature_image')}}" type="file" class="form-control"  name="feature_image" required   />
+                <input  value="{{ old('feature_image')}}" type="file" data-max="8388608" class="form-control"  name="feature_image" required   />
               </div>
               <div class="form-group">
                 <label for="publish_date" >Publish date</label>
@@ -60,11 +60,11 @@
                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required   />
               </div>
                 <div class="form-group">
-                    <label for="tags" >Publish date</label>
-                    <input type="text" name="tags" value="{{ old('tags'}}">
+                    <label for="tags" >Tags</label>
+                    <input type="text"  placeholder="split each tag with comma ',' e.g. great_news,grutto_company" name="tags" value="{{ old('tags')}}">
                 </div>
               <div class="form-group">
-                <label for="status" >Publish date</label>
+                <label for="status" >Status</label>
                 <select  class="form-control"  name="status" title="">
                   <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
                   <option value="publish"  {{ old('status') == 'published' ? 'selected' : '' }}>Publish</option>
