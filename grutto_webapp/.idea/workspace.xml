@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afb7c03b-73ec-43e4-99ba-556fd255fedf" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.env-sample" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsCategoryController.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/resources/views/panel/news_category/edit.blade.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/resources/views/panel/news_category/index.blade.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/resources/views/panel/news_category/new.blade.php" />
-      <change beforePath="$PROJECT_DIR$/.idea/grutto_webapp.iml" afterPath="$PROJECT_DIR$/.idea/grutto_webapp.iml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Panel/NewsController.php" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/NewsRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/NewsRequest.php" />
-      <change beforePath="$PROJECT_DIR$/app/Models/News.php" afterPath="$PROJECT_DIR$/app/Models/News.php" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/MariaDBRepository/MariaDBRepository.php" afterPath="$PROJECT_DIR$/app/Repositories/MariaDBRepository/MariaDBRepository.php" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_08_140723_create_news_table.php" afterPath="$PROJECT_DIR$/database/migrations/2020_08_08_140723_create_news_table.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/news/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/panel/news/edit.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/news/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/panel/news/index.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/news/new.blade.php" afterPath="$PROJECT_DIR$/resources/views/panel/news/new.blade.php" />
-      <change beforePath="$PROJECT_DIR$/resources/views/panel/news/view.blade.php" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/adminlte/page.blade.php" afterPath="$PROJECT_DIR$/resources/views/vendor/adminlte/page.blade.php" />
       <change beforePath="$PROJECT_DIR$/../news-panel" afterPath="$PROJECT_DIR$/../news-panel" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -599,11 +581,12 @@
       <workItem from="1597840577713" duration="8871000" />
       <workItem from="1597850681156" duration="3197000" />
       <workItem from="1597931192834" duration="1219000" />
+      <workItem from="1598505837480" duration="108000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20638000" />
+    <option name="totallyTimeSpent" value="20746000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -616,15 +599,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34768212" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26066098" sideWeight="0.495585" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34768212" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26332623" sideWeight="0.495585" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TemplateSupport.ToolWindow" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
