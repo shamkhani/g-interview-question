@@ -2,6 +2,8 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
+
 class News extends MariaDBModel{
 
     protected  $created_by;
@@ -30,4 +32,12 @@ class News extends MariaDBModel{
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function getPublishDateAttribute()
+    {
+        if($this->attributes['publish_date'])
+            return  date('Y-m-d', strtotime($this->attributes['publish_date']));
+    }
+
+
 }

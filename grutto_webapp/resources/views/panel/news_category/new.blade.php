@@ -59,10 +59,6 @@
                 <input  value="{{ old('publish_date')}}" class="form-control" type="text"  placeholder="YYYY-MM-DD" required
                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required   />
               </div>
-                <div class="form-group">
-                    <label for="tags" >Publish date</label>
-                    <input type="text" name="tags" value="{{ old('tags'}}">
-                </div>
               <div class="form-group">
                 <label for="status" >Publish date</label>
                 <select  class="form-control"  name="status" title="">

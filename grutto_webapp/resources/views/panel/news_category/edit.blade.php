@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'News')
+@section('title', 'News Category')
 
 @section('content_header')
-    <h1>Edit <small>News</small></h1>
+    <h1>Edit <small>Category</small></h1>
 @stop
 
 @section('content')
@@ -65,10 +65,6 @@
                                         placeholder="YYYY-MM-DD" required
 
                                         title="Enter a date in this format YYYY-MM-DD" name="publish_date" required  />
-                            </div>
-                            <div class="form-group">
-                                <label for="tags" >Publish date</label>
-                                <input type="text" name="tags" value="{{ $news->tags }}">
                             </div>
                             <div class="form-group">
                                 <label for="status" >Publish date</label>
