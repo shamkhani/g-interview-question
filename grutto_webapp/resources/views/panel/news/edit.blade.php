@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="feature_image" >Featured Image</label>
+                                <label for="feature_image">Featured Image</label>
                                 <input   type="file" class="form-control"  name="feature_image"    />
                             </div>
                             @if($news->feature_image)
