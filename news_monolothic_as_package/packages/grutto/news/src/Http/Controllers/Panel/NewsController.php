@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Class NewsController
- * @package Grutto\News\Controllers
+ * @package App\Http\Controllers
  */
 class NewsController extends Controller
 {
@@ -80,13 +80,17 @@ class NewsController extends Controller
     public function store(NewsRequest $request)
     {
         try{
-            $news = $this->newsService->createNews($request->all());
-            if($news){
-                $request->file('feature_image')->store('images');
+            $data =$request->all();
+            if($request->hasFile('feature_image')){
+               $fileName = getUploadFileName($request->file('feature_image'));
+               $request->file('feature_image')->storeAs('images',$fileName);
+               $data['feature_image']=$fileName;
             }
+            $news = $this->newsService->createNews($data);
             $tags = $request->get('tags');
             if($tags){
-                $news->tags()->createMany(explode(',',$tags));
+
+                $this->newsService->createAndSyncTags($news, $tags);
             }
             return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been created']);
         }catch (\Exception $ex){
@@ -110,11 +114,14 @@ class NewsController extends Controller
                 unset($data['feature_image']);
             }
 
-            $news = $this->newsService->updateNews($data, $news);
-            if($request->get('feature_image') != null){
-                // TODO : Unlink old image
-                $request->file('feature_image')->store(storage_path('images'));
+            if($request->hasFile('feature_image')){
+               $fileName = getUploadFileName($request->file('feature_image'));
+               $request->file('feature_image')->storeAs('images',$fileName);
+               $data['feature_image']=$fileName;
             }
+
+            $news = $this->newsService->updateNews($data, $news);
+
 
             $tags = $request->get('tags');
             if($tags){

@@ -59,7 +59,7 @@
                             </div>
                             @if($news->feature_image)
                             <div class="form-group">
-                                <img src="{{ Storage::url('images/'. $news->feature_image)}}"  />
+                                <img style="height: 200px;width:200px" src="{{ Storage::url('images/'. $news->feature_image)}}"  />
                             </div>
                             @endif
                             <div class="form-group">

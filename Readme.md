@@ -5,19 +5,9 @@
 
 <h3 align="center">Grutto Interview</h3>
 
-<div align="center">
-
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](
-    https://github.com/kylelobo/The-Documentation-Compendium/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
-
-</div>
-
 ---
 
-<p align="center"> Few lines describing your project.
+<p align="center"> Task 1, News Panel
     <br> 
 </p>
 
@@ -26,108 +16,100 @@
 - [Solutions](#sol)
 - [Getting Started](#getting_started)
 - [Deployment](#deployment)
-- [Usage](#usage)
 
-## 🧐 About <a name = "sol"></a>
 
-I wrote task 1 in 3 solutions that I will describe one by one below:
+## Introduction to Task 1<a name = "sol"></a>
+
+I wrote task 1 in two solutions that I will describe one by one below:
 
 - [Monolothic Project]
 - [Laravel Package]
 - [Microservices]
 
-### Monolothic Project
-In this way I seperate Logics and Database from Controller Via n-tire application layered.
+## Monolithic Project Solution
+In this way, I separate Logics and Database from Controller Via n-tire application layered.
+### Structre 
     - View
     - Controller
     - Service
     - Repository
     - Model
 
-View: In view layer I put all design on it and we have only view.
-Controler: In Controller I just handel Validations and pass data to service layer
+### View: 
+In the view layer, I put all designs on it and we have the only view.
+### Controler:
+ In Controller, I just handed Validations and pass data to the service layer
+### Service: 
+First of all, in the Service layer I see all news entities such as Category, Tags, and New item as a Domain (News Domain) so I put all logics about theses entities in news service.
+The service layer contains application logics
+### Repository:
+In this layer we have ways to fetch data from models
 
-Service: 
-First of all, in Service layer I see all news's entity such as Category,Tags, and New item as a Domain (News Domain) so I put all logics about theses entities in news service.
-Servicd layer is conatin application logic
+### Model:
+Data structure and Relationships
 
-Repository:
-In this layer we have 
+## Laravel Package - Monolithic Project Solution
+As mentioned in Task 1, which our code is contains a large codebase, I would prefer to use a package to separate business logic for each module that we need. 
 
+## Microservies Solutions
+Moreover, we can use Microservices Architecture to decouple modules into services that each service can have their database and logics and setup an API Gateway and Auth service to handel request before sent to other services.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
-### Prerequisites
+## Prerequisites
+-   Webserver solution
+-   Docker base solution
 
-What things you need to install the software and how to install them.
+### Webserver solution
+- Linux / Mac / Windows
+- MariaDB
+- Php-fpm
+- Nginx 
+or
+- just Install LEMP for Linux, Xammp for Windows
+### Docker base solution
+- docker
+- docker-compose
+- composer
 
-```
-Give examples
-```
+## Installing
+First of all, you must run docker service and execute docker-compose
 
-### Installing
+- For web server solution you need to install LEMP,XAMPP, LAMP, etc please see <a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-ubuntu-18-04">How Install LEMP Stack</a>
 
-A step by step series of examples that tell you how to get a development env running.
+- For Docker you must install Docker and Docker-compose <a href="https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=94798094">Install Docker and Docker Compose</a>
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## 🔧 Running the tests <a name = "tests"></a>
-
-Explain how to run the automated tests for this system.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## 🎈 Usage <a name="usage"></a>
-
-Add notes about how to use the system.
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
-Add additional notes about how to deploy this on a live system.
+- Deploy with LEMP, XAMPP, LAMP, etc please 
+    - Copy news_monolothic folders to /var/www/
+    - Config Nginx host to serve the project
+    - Restart Nginx and PHP-Fpm
+    - Open project on browser
 
-## ⛏️ Built Using <a name = "built_using"></a>
+- Deploy with Docker
+    At first, you must navigate to docker folder on project directory, then run this command:
+    ``` 
+        docker-compose up -d
+    ```
+    After run docker-compose, it will install all necessary images, requirements on your machine
+    I put composer install and PHP artisan migrate on docker-compose.yml to setup the Laravel project, so after running your docker-compose up, my custom command will be executed. please wait until the composer installs complete and then PHP migration runs as well as finishes successfully.
 
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
+    For manual installation Laravel composer dependency, you can run that command in docker terminal
+    ```
+    docker-compose exec news_fpm bash
+    ```
+    After open news_fpm terminal
+    ```
+    cd /var/www/news_monolothic
+    composer install
+    php artisan migrate
+    ```
 
-## ✍️ Authors <a name = "authors"></a>
+If all below process finished without exit, you can see the result on your browser with address http://localhost:8081
+Also, you can deploy the project on Xammp, Wamp, or Lamp as well
 
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
 
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
-
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- References

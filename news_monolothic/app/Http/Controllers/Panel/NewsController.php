@@ -80,18 +80,17 @@ class NewsController extends Controller
     public function store(NewsRequest $request)
     {
         try{
-
+            $data =$request->all();
             if($request->hasFile('feature_image')){
-               $request['feature_image']= uniqid() .'.jpg';
                $fileName = getUploadFileName($request->file('feature_image'));
                $request->file('feature_image')->storeAs('images',$fileName);
-               $request['feature_image']=$fileName;
+               $data['feature_image']=$fileName;
             }
-            dd($fileName);
-            $news = $this->newsService->createNews($request->all());
+            $news = $this->newsService->createNews($data);
             $tags = $request->get('tags');
             if($tags){
-                $news->tags()->createMany(explode(',',$tags));
+
+                $this->newsService->createAndSyncTags($news, $tags);
             }
             return redirect(route('news.edit',['news'=>$news->id]))->with(['success'=>'News has been created']);
         }catch (\Exception $ex){
@@ -115,11 +114,14 @@ class NewsController extends Controller
                 unset($data['feature_image']);
             }
 
-            $news = $this->newsService->updateNews($data, $news);
-            if($request->get('feature_image') != null){
-                // TODO : Unlink old image
-                $request->file('feature_image')->storeAs('images',$news->id .'.jpg');
+            if($request->hasFile('feature_image')){
+               $fileName = getUploadFileName($request->file('feature_image'));
+               $request->file('feature_image')->storeAs('images',$fileName);
+               $data['feature_image']=$fileName;
             }
+
+            $news = $this->newsService->updateNews($data, $news);
+
 
             $tags = $request->get('tags');
             if($tags){
