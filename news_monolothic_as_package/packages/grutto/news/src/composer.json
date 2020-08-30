@@ -1,0 +1,45 @@
+{
+    "name": "grutto/news",
+    "type": "project",
+    "description": "News pannel for grutto test.",
+    "authors": [
+        {
+            "name": "Mostafa Shamkhani",
+            "email": "shamkhani@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.2.5"
+    },
+    "require-dev": {
+    },
+
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+
+            "laravel": {
+                "providers": [
+                    "grutto\\news\\NewsServiceProvider"
+                ]
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Grutto\\News\\": "src/"
+        },
+        "files":[
+            "Helper.php"
+        ]
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true
+
+}
