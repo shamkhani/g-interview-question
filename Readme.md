@@ -107,6 +107,7 @@ First of all, you must run docker service and execute docker-compose
     cd /var/www/news_monolothic
     composer install
     php artisan migrate
+    php artisan storage:link
     ```
 
 If all below process finished without exit, you can see the result on your browser with address http://localhost:8081
