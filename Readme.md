@@ -86,13 +86,17 @@ First of all, you must run docker service and execute docker-compose
 
 - Deploy with LEMP, XAMPP, LAMP, etc please 
     - Copy news_monolothic folders to /var/www/
+    - rename .env.sample to .env
     - Config Nginx host to serve the project
     - Restart Nginx and PHP-Fpm
     - Open project on browser
 
 - Deploy with Docker
     At first, you must navigate to docker folder on project directory, then run this command:
+    
     ``` 
+        cd docker
+        mv docker-compose.online.yml to docker-compose.ym
         docker-compose up -d
     ```
     After run docker-compose, it will install all necessary images, requirements on your machine
@@ -109,6 +113,8 @@ First of all, you must run docker service and execute docker-compose
     php artisan migrate
     php artisan storage:link
     ```
+    
+   
 
 If all below process finished without exit, you can see the result on your browser with address http://localhost:8081
 Also, you can deploy the project on Xammp, Wamp, or Lamp as well
