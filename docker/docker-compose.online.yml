@@ -1,0 +1,79 @@
+version: '3'
+
+services:
+
+  ################## start NEWS_MONOLOTHIC service Container #################################################################
+
+  ####################### nginx ##################################
+  news_nginx:
+    image: news-nginx
+    build:
+      context: ./news/nginx
+      args:
+        - PHP_UPSTREAM_CONTAINER=${PHP_UPSTREAM_CONTAINER}
+        - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+    volumes:
+      - ${NEWS_MONOLOTHIC_LOCAL_SOURCE_PATH}:/var/www/news_monolothic
+      - ${NEWS_MONOLOTHIC_NGINX_LOG_PATH}:/var/log/nginx
+    ports:
+      - "${NEWS_MONOLOTHIC_NGINX_HOST_HTTP_PORT}:80"
+    restart: always
+    depends_on:
+      - news_fpm
+
+  ####################### php-fpm ################################
+  news_fpm:
+    image: news-php-fpm
+    build:
+      context: ./news/php-fpm
+      args:
+        - INSTALL_XDEBUG=falsee
+        - INSTALL_OPCACHE=true
+    environment:
+      - PHP_IDE_CONFIG=serverName=news
+      - APP_ENV=${NEWS_MONOLOTHIC_APP_ENV}
+      - APP_URL=${NEWS_MONOLOTHIC_APP_URL}
+      - APP_KEY=${NEWS_MONOLOTHIC_APP_KEY}
+      - APP_DEBUG=${NEWS_MONOLOTHIC_APP_DEBUG}
+      - APP_TIMEZONE=${NEWS_MONOLOTHIC_APP_TIMEZONE}
+      - LOG_CHANNEL=${NEWS_MONOLOTHIC_LOG_CHANNEL}
+      - DB_CONNECTION=${NEWS_MONOLOTHIC_DB_CONNECTION}
+      - DB_HOST=${NEWS_MONOLOTHIC_MARIADB_HOST}
+      - DB_PORT=${NEWS_MONOLOTHIC_MARIADB_PORT}
+      - DB_DATABASE=${NEWS_MONOLOTHIC_MARIADB_DATABASE}
+      - DB_USERNAME=${NEWS_MONOLOTHIC_MARIADB_USER}
+      - DB_PASSWORD=${NEWS_MONOLOTHIC_MARIADB_PASSWORD}
+      - CACHE_DRIVER=${NEWS_MONOLOTHIC_CACHE_DRIVER}
+      - QUEUE_CONNECTION=${NEWS_MONOLOTHIC_QUEUE_CONNECTION}
+      - JWT_KEY=${NEWS_MONOLOTHIC_JWT_KEY}
+      - JWT_SECRET=${NEWS_MONOLOTHIC_JWT_SECRET}
+    volumes:
+      - ${NEWS_MONOLOTHIC_LOCAL_SOURCE_PATH}:/var/www/news_monolothic
+      - ./news/php-fpm/php.ini:/usr/local/etc/php/php.ini
+      - ./news/php-fpm/pool.conf:/usr/local/etc/php-fpm.d/pool.conf
+      - ./news/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    expose:
+      - "9000"
+    restart: always
+    command: bash -c "cd news_monolothic && composer install && php artisan migrate --force "
+    depends_on:
+      - news_mariadb
+
+  ####################### mariadb ################################
+  news_mariadb:
+    image: news-mariadb
+    build:
+      context: ./news/mariadb
+    volumes:
+      - ${NEWS_MONOLOTHIC_MYSQL_PATH}:/data/db/mysql
+    expose:
+      - "3306"
+    ports:
+      - "${NEWS_MONOLOTHIC_MARIADB_PORT}:3306"
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${NEWS_MONOLOTHIC_MARIADB_DATABASE}
+      - MYSQL_USER=${NEWS_MONOLOTHIC_MARIADB_USER}
+      - MYSQL_PASSWORD=${NEWS_MONOLOTHIC_MARIADB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${NEWS_MONOLOTHIC_MARIADB_ROOT_PASSWORD}
+  ################# End NEWS_MONOLOTHIC service ##############################################################################
